@@ -1,0 +1,10 @@
+<div class="snack-bar-container">
+  <mat-icon class="check-icon">{{icon}}</mat-icon>
+  <div class="message-container">
+    <div class="title">{{title}}</div>
+    <div class="content">
+      {{data.message}}
+    </div>
+  </div>
+</div>
+<button *ngIf="!!data.isShowDismissBtn" class="close-button" (click)="close()" mat-mini-fab>x</button>

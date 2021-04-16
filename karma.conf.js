@@ -10,7 +10,8 @@ module.exports = function (config) {
       require('karma-chrome-launcher'),
       require('karma-jasmine-html-reporter'),
       require('karma-coverage-istanbul-reporter'),
-      require('@angular-devkit/build-angular/plugins/karma')
+      require('@angular-devkit/build-angular/plugins/karma'),
+      require('karma-scss-preprocessor')
     ],
     client: {
       clearContext: false // leave Jasmine Spec Runner output visible in browser
@@ -27,6 +28,17 @@ module.exports = function (config) {
     autoWatch: true,
     browsers: ['Chrome'],
     singleRun: false,
-    restartOnFileChange: true
+    restartOnFileChange: true,
+    files: [
+      { pattern: '../node_modules/@angular/material/prebuilt-themes/indigo-pink.css', watched: true,  included: true, served: true },
+      { pattern: './src/styles.scss', watched: true,  included: true, served: true },
+      { pattern: './src/app/app.component.scss', watched: true,  included: true, served: true },
+      { pattern: './src/app/shared/snackbar/snackbar.component.scss', watched: true,  included: true, served: true }
+    ],
+    preprocessors: {
+      './src/styles.scss': ['scss'],
+      './src/app/app.component.scss': ['scss'],
+      './src/app/shared/snackbar/snackbar.component.scss': ['scss'],
+    }
   });
 };
