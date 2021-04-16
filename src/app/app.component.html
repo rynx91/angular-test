@@ -25,13 +25,18 @@
       </div>
     </div>
     <div class="button-row">
-      <button mat-flat-button color="primary" (click)="upperCase()">
+      <button mat-flat-button color="primary" (click)="submit(0)">
+        Submit
+      </button>
+    </div>
+    <div class="button-row">
+      <button mat-stroked-button color="primary" (click)="submit(1)">
         Convert to UPPERCASE
       </button>
-      <button mat-flat-button color="accent" (click)="alternateCase()">
+      <button mat-stroked-button color="accent" (click)="submit(2)">
         Convert to alternate upper and lower case
       </button>
-      <button mat-flat-button color="warn" (click)="createCsv()">
+      <button mat-stroked-button color="warn" (click)="submit(3)">
         Create CSV file
       </button>
     </div>

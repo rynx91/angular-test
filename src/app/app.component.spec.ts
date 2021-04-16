@@ -75,16 +75,29 @@ describe('AppComponent', () => {
       component.resetResult();
   });
 
+  it('submitting text to perform all 3 actions', () => {
+    expect(component.textForm.valid).toBeFalsy();
+    component.textForm.controls['text'].setValue('hello world');
+    expect(component.textForm.valid).toBeTruthy();
+
+    // Trigger the submit function
+    component.submit(0);
+
+    // Now we can check to make sure the emitted value is correct
+    expect(component.result).toBe('<br>HELLO WORLD<br>hElLo wOrLd<br>CSV created!');
+    component.resetResult();
+});
+
   it('submitting text to convert to uppercase', () => {
       expect(component.textForm.valid).toBeFalsy();
       component.textForm.controls['text'].setValue('hello world');
       expect(component.textForm.valid).toBeTruthy();
 
-      // Trigger the login function
-      component.upperCase();
+      // Trigger the submit function
+      component.submit(1);
 
       // Now we can check to make sure the emitted value is correct
-      expect(component.result).toBe('HELLO WORLD');
+      expect(component.result).toBe('HELLO WORLD<br>');
       component.resetResult();
   });
 
@@ -93,11 +106,11 @@ describe('AppComponent', () => {
     component.textForm.controls['text'].setValue('hello world');
     expect(component.textForm.valid).toBeTruthy();
 
-    // Trigger the login function
-    component.alternateCase();
+    // Trigger the submit function
+    component.submit(2);
 
     // Now we can check to make sure the emitted value is correct
-    expect(component.result).toBe('hElLo wOrLd');
+    expect(component.result).toBe('hElLo wOrLd<br>');
     component.resetResult();
   });
 
@@ -106,8 +119,8 @@ describe('AppComponent', () => {
     component.textForm.controls['text'].setValue('hello world');
     expect(component.textForm.valid).toBeTruthy();
 
-    // Trigger the login function
-    component.createCsv();
+    // Trigger the submit function
+    component.submit(3);
 
     // Now we can check to make sure the emitted value is correct
     expect(component.result).toBe('CSV created!');

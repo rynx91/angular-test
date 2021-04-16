@@ -28,35 +28,18 @@ export class AppComponent implements OnInit{
   }
 
   upperCase() {
-    this.resetResult();
-    if(!this.validateForm()){
-      SnackbarComponent.initErrorSnackbar(this.snackBar, 'Please insert a valid text');
-      return;
-    }
-    this.result = (this.textForm.get('text').value).trim().toUpperCase();
-    SnackbarComponent.initSuccessSnackbar(this.snackBar, 'Result: '+this.result);
+    this.result += (this.textForm.get('text').value).trim().toUpperCase() + '<br>';
   }
 
   alternateCase() {
-    this.resetResult();
-    if(!this.validateForm()){
-      SnackbarComponent.initErrorSnackbar(this.snackBar, 'Please insert a valid text');
-      return;
-    }
     var chars = this.textForm.get('text').value.trim().toUpperCase().split('');
     for (var i = 0; i < chars.length; i += 2) {
       chars[i] = chars[i].toLowerCase();
     }
-    this.result =  chars.join('');
-    SnackbarComponent.initSuccessSnackbar(this.snackBar, 'Result: '+this.result);
+    this.result +=  chars.join('') + '<br>';
   }
 
   createCsv() {
-    this.resetResult();
-    if(!this.validateForm()){
-      SnackbarComponent.initErrorSnackbar(this.snackBar, 'Please insert a valid text');
-      return;
-    }
     var chars = this.textForm.get('text').value.trim().toUpperCase().split('');
     const rows = [
       chars
@@ -66,8 +49,7 @@ export class AppComponent implements OnInit{
     
     var encodedUri = encodeURI(csvContent);
     window.open(encodedUri);
-    this.result = 'CSV created!';
-    SnackbarComponent.initSuccessSnackbar(this.snackBar, 'Result: '+this.result);
+    this.result += 'CSV created!';
   }
 
   resetResult() {
@@ -78,5 +60,31 @@ export class AppComponent implements OnInit{
   validateForm(): boolean {
     CommonUtil.markFormAsTouched(this.textForm);
     return this.textForm.valid;
+  }
+
+  submit(code: number) {
+    this.resetResult();
+    if(!this.validateForm()){
+      SnackbarComponent.initErrorSnackbar(this.snackBar, 'Please insert a valid text');
+      return;
+    }
+    switch (code) {
+      case 0:
+        this.result += '<br>';
+        this.upperCase();
+        this.alternateCase();
+        this.createCsv();
+        break;
+      case 1:
+        this.upperCase();
+        break;
+      case 2:
+        this.alternateCase();
+        break;
+      case 3:
+        this.createCsv()
+        break;
+    }
+    SnackbarComponent.initSuccessSnackbar(this.snackBar, 'Result: '+this.result);
   }
 }

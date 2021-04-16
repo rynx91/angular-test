@@ -2,8 +2,7 @@
   <mat-icon class="check-icon">{{icon}}</mat-icon>
   <div class="message-container">
     <div class="title">{{title}}</div>
-    <div class="content">
-      {{data.message}}
+    <div class="content" [innerHTML]="data.message">
     </div>
   </div>
 </div>
