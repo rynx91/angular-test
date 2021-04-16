@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material';
+import { TextResponse } from './models/text.type';
 import { CommonUtil } from './shared/common-util';
 import { SnackbarComponent } from './shared/snackbar/snackbar.component';
 
@@ -11,7 +12,11 @@ import { SnackbarComponent } from './shared/snackbar/snackbar.component';
 })
 export class AppComponent implements OnInit{
   textForm: FormGroup;
-  result: string = '';
+  textResponse: TextResponse = {
+    upperCase: null,
+    alternateCase: null,
+    csv: false
+  };
 
   constructor(private fb: FormBuilder, public snackBar: MatSnackBar){
 
@@ -28,7 +33,7 @@ export class AppComponent implements OnInit{
   }
 
   upperCase() {
-    this.result += (this.textForm.get('text').value).trim().toUpperCase() + '<br>';
+    this.textResponse.upperCase =  (this.textForm.get('text').value).trim().toUpperCase();
   }
 
   alternateCase() {
@@ -36,7 +41,7 @@ export class AppComponent implements OnInit{
     for (var i = 0; i < chars.length; i += 2) {
       chars[i] = chars[i].toLowerCase();
     }
-    this.result +=  chars.join('') + '<br>';
+    this.textResponse.alternateCase =  chars.join('');
   }
 
   createCsv() {
@@ -49,11 +54,13 @@ export class AppComponent implements OnInit{
     
     var encodedUri = encodeURI(csvContent);
     window.open(encodedUri);
-    this.result += 'CSV created!';
+    this.textResponse.csv = true;
   }
 
-  resetResult() {
-    this.result = '';
+  resetTextResponse() {
+    this.textResponse.alternateCase = null;
+    this.textResponse.upperCase = null;
+    this.textResponse.csv = false;
     SnackbarComponent.dismissSnackbar(this.snackBar);
   }
 
@@ -63,14 +70,13 @@ export class AppComponent implements OnInit{
   }
 
   submit(code: number) {
-    this.resetResult();
+    this.resetTextResponse();
     if(!this.validateForm()){
       SnackbarComponent.initErrorSnackbar(this.snackBar, 'Please insert a valid text');
       return;
     }
     switch (code) {
       case 0:
-        this.result += '<br>';
         this.upperCase();
         this.alternateCase();
         this.createCsv();
@@ -85,6 +91,20 @@ export class AppComponent implements OnInit{
         this.createCsv()
         break;
     }
-    SnackbarComponent.initSuccessSnackbar(this.snackBar, 'Result: '+this.result);
+    SnackbarComponent.initSuccessSnackbar(this.snackBar, 'Result: '+ this.constructResult());
+  }
+
+  constructResult() {
+    let result = '';
+    if(!!this.textResponse.upperCase) {
+      result += this.textResponse.upperCase + '<br>';
+    }
+    if(!!this.textResponse.alternateCase) {
+      result += this.textResponse.alternateCase + '<br>';
+    }
+    if(!!this.textResponse.csv) {
+      result += 'CSV created!';
+    }
+    return result;
   }
 }

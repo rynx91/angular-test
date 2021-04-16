@@ -72,7 +72,7 @@ describe('AppComponent', () => {
       errors = text.errors || {};
       expect(errors['required']).toBeFalsy();
       expect(errors['pattern']).toBeFalsy();
-      component.resetResult();
+      component.resetTextResponse;
   });
 
   it('submitting text to perform all 3 actions', () => {
@@ -84,9 +84,9 @@ describe('AppComponent', () => {
     component.submit(0);
 
     // Now we can check to make sure the emitted value is correct
-    expect(component.result).toBe('<br>HELLO WORLD<br>hElLo wOrLd<br>CSV created!');
-    component.resetResult();
-});
+    expect(component.constructResult()).toBe('HELLO WORLD<br>hElLo wOrLd<br>CSV created!');
+    component.resetTextResponse();
+  });
 
   it('submitting text to convert to uppercase', () => {
       expect(component.textForm.valid).toBeFalsy();
@@ -97,8 +97,8 @@ describe('AppComponent', () => {
       component.submit(1);
 
       // Now we can check to make sure the emitted value is correct
-      expect(component.result).toBe('HELLO WORLD<br>');
-      component.resetResult();
+      expect(component.constructResult()).toBe('HELLO WORLD<br>');
+      component.resetTextResponse();
   });
 
   it('submitting text to convert to alternate case', () => {
@@ -110,8 +110,8 @@ describe('AppComponent', () => {
     component.submit(2);
 
     // Now we can check to make sure the emitted value is correct
-    expect(component.result).toBe('hElLo wOrLd<br>');
-    component.resetResult();
+    expect(component.constructResult()).toBe('hElLo wOrLd<br>');
+    component.resetTextResponse();
   });
 
   it('submitting text to create CSV', () => {
@@ -123,8 +123,8 @@ describe('AppComponent', () => {
     component.submit(3);
 
     // Now we can check to make sure the emitted value is correct
-    expect(component.result).toBe('CSV created!');
-    component.resetResult();
+    expect(component.constructResult()).toBe('CSV created!');
+    component.resetTextResponse();
   });
 
   const materialIcons = document.createElement('link');
